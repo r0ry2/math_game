@@ -83,6 +83,40 @@ def submit_answer():
             score += 1
 
     return render_template('result.html', score=score, total=total)
+@app.route('/delete_question/<int:question_id>')
+@login_required
+def delete_question(question_id):
+    if not current_user.is_admin:
+        flash('Access denied.')
+        return redirect(url_for('home'))
+
+    question = Question.query.get_or_404(question_id)
+    db.session.delete(question)
+    db.session.commit()
+    flash('تم حذف السؤال بنجاح!')
+    return redirect(url_for('admin'))
+@app.route('/edit_question/<int:question_id>', methods=['GET', 'POST'])
+@login_required
+def edit_question(question_id):
+    if not current_user.is_admin:
+        flash('Access denied.')
+        return redirect(url_for('home'))
+
+    question = Question.query.get_or_404(question_id)
+
+    if request.method == 'POST':
+        question.question_text = request.form.get('question_text')
+        question.choice1 = request.form.get('choice1')
+        question.choice2 = request.form.get('choice2')
+        question.choice3 = request.form.get('choice3')
+        question.choice4 = request.form.get('choice4')
+        question.correct_answer = request.form.get('correct_answer')
+
+        db.session.commit()
+        flash('تم تعديل السؤال بنجاح!')
+        return redirect(url_for('admin'))
+
+    return render_template('edit_question.html', question=question)
 
 @app.route('/logout')
 @login_required
@@ -104,6 +138,6 @@ if __name__ == '__main__':
             db.session.add(admin_user)
             db.session.commit()
 
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5002)
 
 

@@ -3,62 +3,73 @@
 {% block title %}Admin Panel{% endblock %}
 
 {% block content %}
-<h1>لوحة التحكم - إضافة سؤال جديد</h1>
+<h2 class="mb-4">لوحة التحكم - إضافة سؤال جديد</h2>
 
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <div class="message">
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        </div>
-    {% endif %}
-{% endwith %}
+<form method="POST" class="mb-5">
+  <div class="mb-3">
+    <label class="form-label">السؤال</label>
+    <input type="text" name="question_text" class="form-control" required>
+  </div>
 
-<form method="POST">
-    <p>
-        <label>السؤال:</label><br>
-        <input type="text" name="question_text" required size="80">
-    </p>
-    <p>
-        <label>الخيار 1:</label><br>
-        <input type="text" name="choice1" required size="50">
-    </p>
-    <p>
-        <label>الخيار 2:</label><br>
-        <input type="text" name="choice2" required size="50">
-    </p>
-    <p>
-        <label>الخيار 3:</label><br>
-        <input type="text" name="choice3" required size="50">
-    </p>
-    <p>
-        <label>الخيار 4:</label><br>
-        <input type="text" name="choice4" required size="50">
-    </p>
-    <p>
-        <label>الإجابة الصحيحة (اكتب نص الخيار الصحيح تمامًا):</label><br>
-        <input type="text" name="correct_answer" required size="50">
-    </p>
-    <button type="submit">أضف السؤال</button>
+  <div class="mb-3">
+    <label class="form-label">الخيار 1</label>
+    <input type="text" name="choice1" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">الخيار 2</label>
+    <input type="text" name="choice2" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">الخيار 3</label>
+    <input type="text" name="choice3" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">الخيار 4</label>
+    <input type="text" name="choice4" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">الإجابة الصحيحة</label>
+    <input type="text" name="correct_answer" class="form-control" required>
+  </div>
+
+  <button type="submit" class="btn btn-success">أضف السؤال</button>
 </form>
 
-<hr>
-
-<h2>جميع الأسئلة الموجودة</h2>
-{% for question in questions %}
-    <div style="margin-bottom: 20px;">
-        <strong>السؤال:</strong> {{ question.question_text }} <br>
-        <ul>
-            <li>{{ question.choice1 }}</li>
-            <li>{{ question.choice2 }}</li>
-            <li>{{ question.choice3 }}</li>
-            <li>{{ question.choice4 }}</li>
-        </ul>
-        <strong>الإجابة الصحيحة:</strong> {{ question.correct_answer }}
-    </div>
-{% else %}
-    <p>لا توجد أسئلة مضافة حتى الآن.</p>
-{% endfor %}
+<h3>جميع الأسئلة</h3>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>السؤال</th>
+      <th>الخيار 1</th>
+      <th>الخيار 2</th>
+      <th>الخيار 3</th>
+      <th>الخيار 4</th>
+      <th>الإجابة الصحيحة</th>
+      <th>إجراءات</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for question in questions %}
+    <tr>
+      <td>{{ question.question_text }}</td>
+      <td>{{ question.choice1 }}</td>
+      <td>{{ question.choice2 }}</td>
+      <td>{{ question.choice3 }}</td>
+      <td>{{ question.choice4 }}</td>
+      <td>{{ question.correct_answer }}</td>
+      <td>
+        <a href="{{ url_for('edit_question', question_id=question.id) }}" class="btn btn-warning btn-sm">تعديل</a>
+        <a href="{{ url_for('delete_question', question_id=question.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد من الحذف؟');">حذف</a>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7" class="text-center">لا توجد أسئلة مضافة حتى الآن.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 {% endblock %}

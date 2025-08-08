@@ -3,17 +3,31 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1>Answer the Questions</h1>
+<h1 class="mb-4">Answer the Questions</h1>
 
 <form method="post" action="{{ url_for('submit_answer') }}">
     {% for question in questions %}
+    <div class="mb-4 p-3 border rounded bg-white">
         <p><strong>{{ question.question_text }}</strong></p>
-        <input type="radio" name="q{{ question.id }}" value="{{ question.choice1 }}" required> {{ question.choice1 }}<br>
-        <input type="radio" name="q{{ question.id }}" value="{{ question.choice2 }}" required> {{ question.choice2 }}<br>
-        <input type="radio" name="q{{ question.id }}" value="{{ question.choice3 }}" required> {{ question.choice3 }}<br>
-        <input type="radio" name="q{{ question.id }}" value="{{ question.choice4 }}" required> {{ question.choice4 }}<br>
-        <hr>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q{{ question.id }}" id="q{{ question.id }}a1" value="{{ question.choice1 }}" required>
+            <label class="form-check-label" for="q{{ question.id }}a1">{{ question.choice1 }}</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q{{ question.id }}" id="q{{ question.id }}a2" value="{{ question.choice2 }}" required>
+            <label class="form-check-label" for="q{{ question.id }}a2">{{ question.choice2 }}</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q{{ question.id }}" id="q{{ question.id }}a3" value="{{ question.choice3 }}" required>
+            <label class="form-check-label" for="q{{ question.id }}a3">{{ question.choice3 }}</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q{{ question.id }}" id="q{{ question.id }}a4" value="{{ question.choice4 }}" required>
+            <label class="form-check-label" for="q{{ question.id }}a4">{{ question.choice4 }}</label>
+        </div>
+    </div>
     {% endfor %}
-    <button type="submit">Submit Answers</button>
+    <button type="submit" class="btn btn-primary mb-5">Submit Answers</button>
 </form>
+
 {% endblock %}
