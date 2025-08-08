@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Answer the Questions</h1>
+
+<form method="post" action="{{ url_for('submit_answer') }}">
+    {% for question in questions %}
+        <p><strong>{{ question.question_text }}</strong></p>
+        <input type="radio" name="q{{ question.id }}" value="{{ question.choice1 }}" required> {{ question.choice1 }}<br>
+        <input type="radio" name="q{{ question.id }}" value="{{ question.choice2 }}" required> {{ question.choice2 }}<br>
+        <input type="radio" name="q{{ question.id }}" value="{{ question.choice3 }}" required> {{ question.choice3 }}<br>
+        <input type="radio" name="q{{ question.id }}" value="{{ question.choice4 }}" required> {{ question.choice4 }}<br>
+        <hr>
+    {% endfor %}
+    <button type="submit">Submit Answers</button>
+</form>
+{% endblock %}

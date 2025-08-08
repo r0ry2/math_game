@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+<h1>لوحة التحكم - إضافة سؤال جديد</h1>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="message">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<form method="POST">
+    <p>
+        <label>السؤال:</label><br>
+        <input type="text" name="question_text" required size="80">
+    </p>
+    <p>
+        <label>الخيار 1:</label><br>
+        <input type="text" name="choice1" required size="50">
+    </p>
+    <p>
+        <label>الخيار 2:</label><br>
+        <input type="text" name="choice2" required size="50">
+    </p>
+    <p>
+        <label>الخيار 3:</label><br>
+        <input type="text" name="choice3" required size="50">
+    </p>
+    <p>
+        <label>الخيار 4:</label><br>
+        <input type="text" name="choice4" required size="50">
+    </p>
+    <p>
+        <label>الإجابة الصحيحة (اكتب نص الخيار الصحيح تمامًا):</label><br>
+        <input type="text" name="correct_answer" required size="50">
+    </p>
+    <button type="submit">أضف السؤال</button>
+</form>
+
+<hr>
+
+<h2>جميع الأسئلة الموجودة</h2>
+{% for question in questions %}
+    <div style="margin-bottom: 20px;">
+        <strong>السؤال:</strong> {{ question.question_text }} <br>
+        <ul>
+            <li>{{ question.choice1 }}</li>
+            <li>{{ question.choice2 }}</li>
+            <li>{{ question.choice3 }}</li>
+            <li>{{ question.choice4 }}</li>
+        </ul>
+        <strong>الإجابة الصحيحة:</strong> {{ question.correct_answer }}
+    </div>
+{% else %}
+    <p>لا توجد أسئلة مضافة حتى الآن.</p>
+{% endfor %}
+
+{% endblock %}
