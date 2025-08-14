@@ -3,73 +3,65 @@
 {% block title %}Admin Panel{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">لوحة التحكم - إضافة سؤال جديد</h2>
+<h2>Admin Panel</h2>
 
-<form method="POST" class="mb-5">
-  <div class="mb-3">
-    <label class="form-label">السؤال</label>
-    <input type="text" name="question_text" class="form-control" required>
-  </div>
-
-  <div class="mb-3">
-    <label class="form-label">الخيار 1</label>
-    <input type="text" name="choice1" class="form-control" required>
-  </div>
-
-  <div class="mb-3">
-    <label class="form-label">الخيار 2</label>
-    <input type="text" name="choice2" class="form-control" required>
-  </div>
-
-  <div class="mb-3">
-    <label class="form-label">الخيار 3</label>
-    <input type="text" name="choice3" class="form-control" required>
-  </div>
-
-  <div class="mb-3">
-    <label class="form-label">الخيار 4</label>
-    <input type="text" name="choice4" class="form-control" required>
-  </div>
-
-  <div class="mb-3">
-    <label class="form-label">الإجابة الصحيحة</label>
-    <input type="text" name="correct_answer" class="form-control" required>
-  </div>
-
-  <button type="submit" class="btn btn-success">أضف السؤال</button>
+<hr>
+<h4>Add New Question</h4>
+<form method="POST">
+    <div class="mb-2">
+        <input class="form-control" type="text" name="question_text" placeholder="Question Text" required>
+    </div>
+    <div class="mb-2">
+        <input class="form-control" type="text" name="choice1" placeholder="Choice 1" required>
+    </div>
+    <div class="mb-2">
+        <input class="form-control" type="text" name="choice2" placeholder="Choice 2" required>
+    </div>
+    <div class="mb-2">
+        <input class="form-control" type="text" name="choice3" placeholder="Choice 3" required>
+    </div>
+    <div class="mb-2">
+        <input class="form-control" type="text" name="choice4" placeholder="Choice 4" required>
+    </div>
+    <div class="mb-2">
+        <input class="form-control" type="text" name="correct_answer" placeholder="Correct Answer" required>
+    </div>
+    <button class="btn btn-success" type="submit">Add Question</button>
 </form>
 
-<h3>جميع الأسئلة</h3>
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th>السؤال</th>
-      <th>الخيار 1</th>
-      <th>الخيار 2</th>
-      <th>الخيار 3</th>
-      <th>الخيار 4</th>
-      <th>الإجابة الصحيحة</th>
-      <th>إجراءات</th>
-    </tr>
-  </thead>
-  <tbody>
+<hr>
+<h4>All Questions</h4>
+<ul class="list-group mb-4">
     {% for question in questions %}
-    <tr>
-      <td>{{ question.question_text }}</td>
-      <td>{{ question.choice1 }}</td>
-      <td>{{ question.choice2 }}</td>
-      <td>{{ question.choice3 }}</td>
-      <td>{{ question.choice4 }}</td>
-      <td>{{ question.correct_answer }}</td>
-      <td>
-        <a href="{{ url_for('edit_question', question_id=question.id) }}" class="btn btn-warning btn-sm">تعديل</a>
-        <a href="{{ url_for('delete_question', question_id=question.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد من الحذف؟');">حذف</a>
-      </td>
-    </tr>
-    {% else %}
-    <tr><td colspan="7" class="text-center">لا توجد أسئلة مضافة حتى الآن.</td></tr>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ question.question_text }}
+        <span>
+            <a href="{{ url_for('edit_question', question_id=question.id) }}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{{ url_for('delete_question', question_id=question.id) }}" class="btn btn-sm btn-danger">Delete</a>
+        </span>
+    </li>
     {% endfor %}
-  </tbody>
-</table>
+</ul>
+
+<hr>
+<h4>Manage Users</h4>
+<ul class="list-group">
+    {% for user in users %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ user.username }} ({{ user.display_name }})
+        {% if not user.is_admin %}
+        <span>
+            <a href="{{ url_for('delete_user', user_id=user.id) }}" class="btn btn-sm btn-danger">Delete</a>
+            <form action="{{ url_for('reset_password', user_id=user.id) }}" method="POST" style="display:inline;">
+                <input class="form-control form-control-sm d-inline-block w-auto" type="text" name="new_password" placeholder="New password" required>
+                <button class="btn btn-sm btn-primary">Reset</button>
+            </form>
+        </span>
+        {% else %}
+            (Admin)
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
 
 {% endblock %}

@@ -1,0 +1,22 @@
+# create_db.py
+import sqlite3
+
+conn = sqlite3.connect('database.db')
+c = conn.cursor()
+
+# جدول المستخدمين
+c.execute('''CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    is_admin BOOLEAN NOT NULL DEFAULT 0
+)''')
+
+# إضافة مسؤول (admin)
+c.execute("INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)", 
+          ('admin', 'admin123', 1))
+
+conn.commit()
+conn.close()
+print("Database created and admin added.")
+

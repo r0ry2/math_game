@@ -3,9 +3,9 @@
 {% block title %}Result{% endblock %}
 
 {% block content %}
-<div class="alert alert-info text-center">
-    <h2>نتيجتك</h2>
-    <p>لقد حصلت على <strong>{{ score }}</strong> من أصل <strong>{{ total }}</strong>.</p>
-    <a href="{{ url_for('home') }}" class="btn btn-success">أعد المحاولة</a>
+<div class="text-center">
+    <h2>Hi {{ display_name }}</h2>
+    <p>Your score: <strong>{{ score }}</strong> / {{ total }}</p>
+    <a href="{{ url_for('home') }}" class="btn btn-primary">Back to Home</a>
 </div>
 {% endblock %}

@@ -1,32 +1,47 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <title>تعديل السؤال</title>
-</head>
-<body>
-    <h2>تعديل السؤال</h2>
-    <form method="POST">
-        <label>نص السؤال:</label><br>
-        <input type="text" name="question_text" value="{{ question.question_text }}"><br><br>
+{% extends 'base.html' %}
 
-        <label>الخيار 1:</label><br>
-        <input type="text" name="choice1" value="{{ question.choice1 }}"><br>
+{% block title %}Edit Question{% endblock %}
 
-        <label>الخيار 2:</label><br>
-        <input type="text" name="choice2" value="{{ question.choice2 }}"><br>
+{% block content %}
+<h1 class="mb-4">Edit Question</h1>
 
-        <label>الخيار 3:</label><br>
-        <input type="text" name="choice3" value="{{ question.choice3 }}"><br>
+<form method="POST">
+    <div class="mb-3">
+        <label for="question_text" class="form-label">Question Text</label>
+        <textarea class="form-control" id="question_text" name="question_text" rows="3" required>{{ question.question_text }}</textarea>
+    </div>
 
-        <label>الخيار 4:</label><br>
-        <input type="text" name="choice4" value="{{ question.choice4 }}"><br>
+    <div class="mb-3">
+        <label for="choice1" class="form-label">Choice 1</label>
+        <input type="text" class="form-control" id="choice1" name="choice1" value="{{ question.choice1 }}" required>
+    </div>
 
-        <label>الإجابة الصحيحة:</label><br>
-        <input type="text" name="correct_answer" value="{{ question.correct_answer }}"><br><br>
+    <div class="mb-3">
+        <label for="choice2" class="form-label">Choice 2</label>
+        <input type="text" class="form-control" id="choice2" name="choice2" value="{{ question.choice2 }}" required>
+    </div>
 
-        <button type="submit">حفظ التعديل</button>
-    </form>
-    <a href="{{ url_for('admin') }}">العودة للوحة التحكم</a>
-</body>
-</html>
+    <div class="mb-3">
+        <label for="choice3" class="form-label">Choice 3</label>
+        <input type="text" class="form-control" id="choice3" name="choice3" value="{{ question.choice3 }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="choice4" class="form-label">Choice 4</label>
+        <input type="text" class="form-control" id="choice4" name="choice4" value="{{ question.choice4 }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="correct_answer" class="form-label">Correct Answer</label>
+        <select class="form-select" id="correct_answer" name="correct_answer" required>
+            <option value="{{ question.choice1 }}" {% if question.correct_answer == question.choice1 %}selected{% endif %}>{{ question.choice1 }}</option>
+            <option value="{{ question.choice2 }}" {% if question.correct_answer == question.choice2 %}selected{% endif %}>{{ question.choice2 }}</option>
+            <option value="{{ question.choice3 }}" {% if question.correct_answer == question.choice3 %}selected{% endif %}>{{ question.choice3 }}</option>
+            <option value="{{ question.choice4 }}" {% if question.correct_answer == question.choice4 %}selected{% endif %}>{{ question.choice4 }}</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Question</button>
+    <a href="{{ url_for('admin') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

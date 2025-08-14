@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Quiz{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Hi {{ display_name }}, Answer the Questions</h2>
+<form method="POST" action="{{ url_for('submit_answer') }}">
+    {% for question in questions %}
+    <div class="mb-3 p-3 border rounded bg-light">
+        <p><strong>{{ question.question_text }}</strong></p>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q{{ question.id }}" value="{{ question.choice1 }}" required>
+            <label class="form-check-label">{{ question.choice1 }}</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q{{ question.id }}" value="{{ question.choice2 }}" required>
+            <label class="form-check-label">{{ question.choice2 }}</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q{{ question.id }}" value="{{ question.choice3 }}" required>
+            <label class="form-check-label">{{ question.choice3 }}</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q{{ question.id }}" value="{{ question.choice4 }}" required>
+            <label class="form-check-label">{{ question.choice4 }}</label>
+        </div>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Submit Answers</button>
+</form>
+{% endblock %}
